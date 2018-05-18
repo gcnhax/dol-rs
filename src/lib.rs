@@ -132,14 +132,14 @@ impl DolFile {
             rdr,
             &header.section_offsets[0..7],
             &header.section_addresses[0..7],
-            &header.section_addresses[0..7],
+            &header.section_lengths[0..7],
             SectionKind::Text,
         )?;
         sections.extend(load_sections(
             rdr,
             &header.section_offsets[7..18],
             &header.section_addresses[7..18],
-            &header.section_addresses[7..18],
+            &header.section_lengths[7..18],
             SectionKind::Data,
         )?);
 
@@ -185,7 +185,7 @@ impl DolFile {
             section_offsets[0..7][i] = current_offset;
 
             section_queue.push((current_offset, section));
-            current_offset += section.data.len() as u32 + 5;
+            current_offset += section.data.len() as u32;
         }
 
         for (i, section) in data_sections.iter().enumerate() {
