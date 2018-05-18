@@ -283,7 +283,7 @@ mod test {
             entry_point: 16,
         };
 
-        hdr.write(&mut cur).unwrap();
+        hdr.write(&mut cur).expect("Could not write DOL header");
 
         let expected: &[u8] = &[
             0, 0, 1, 0, 0, 0, 1, 9, 0, 0, 1, 18, 0, 0, 1, 27, 0, 0, 1, 36, 0, 0, 1, 45, 0, 0, 1,
@@ -306,7 +306,7 @@ mod test {
         use std::fs::File;
         let mut f = File::open("data/metronome.dol").unwrap();
 
-        let hdr = DolHeader::parse(&mut f).unwrap();
+        let hdr = DolHeader::parse(&mut f).expect("Could not parse DOL header");
 
         assert_eq!(
             hdr,
@@ -321,5 +321,24 @@ mod test {
                 entry_point: 0x8026caa0,
             }
         );
+    }
+
+    #[test]
+    fn write_back_identical_dol() {
+        use std::fs::File;
+        use std::io::Cursor;
+        let mut source = File::open("data/metronome.dol").unwrap();
+        // read a copy of the original file
+        let mut original = Vec::new();
+        source.read_to_end(&mut original).unwrap();
+        source.seek(SeekFrom::Start(0)).unwrap();
+
+        // somewhere to write our data back to
+        let mut writeback = Cursor::new(Vec::with_capacity(original.len()));
+
+        let dol = DolFile::parse(&mut source).expect("Could not parse DOL file");
+        dol.write(&mut writeback).expect("Could not write DOL file back to a cursor");
+
+        assert!(writeback.into_inner() == original, "Expected written DOL file to be equal to the original one");
     }
 }
