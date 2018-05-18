@@ -1,3 +1,4 @@
+//! A crate for reading and writing Nintendo DOL executables, as used on the GameCube and Wii.
 extern crate byteorder;
 #[macro_use]
 extern crate itertools;
@@ -8,12 +9,14 @@ use std::io::{Read, Seek, SeekFrom, Write};
 mod error;
 pub use error::Error;
 
+/// Indicates the type of a DOL section (text or data).
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum SectionKind {
     Text,
     Data,
 }
 
+/// A section in a DOL file. Owns that section's data.
 #[derive(Debug)]
 pub struct Section {
     pub kind: SectionKind,
@@ -21,6 +24,7 @@ pub struct Section {
     pub data: Vec<u8>,
 }
 
+/// A DOL executable file.
 #[derive(Debug)]
 pub struct DolFile {
     pub sections: Vec<Section>,
@@ -29,6 +33,7 @@ pub struct DolFile {
     pub entry_point: u32,
 }
 
+/// The header on a DOL file.
 #[derive(Debug, PartialEq, Eq)]
 pub struct DolHeader {
     pub section_offsets: [u32; 18],
@@ -40,6 +45,7 @@ pub struct DolHeader {
 }
 
 impl DolHeader {
+    /// Parses a DOL header from a reader, returning a DolHeader if successful.
     pub fn parse<R>(rdr: &mut R) -> Result<Self, Error>
     where
         R: Read + Seek,
@@ -68,6 +74,7 @@ impl DolHeader {
         })
     }
 
+    /// Writes a DOL header to a writer, returning `Ok(())` if successful.
     pub fn write<W>(&self, wtr: &mut W) -> Result<(), Error>
     where
         W: Write,
@@ -95,6 +102,7 @@ impl DolHeader {
     }
 }
 
+/// Loads sections into a [Vec] of [Section]s, given offsets, addresses, lengths, and the type of these sections.
 fn load_sections<R>(
     rdr: &mut R,
     offsets: &[u32],
@@ -123,6 +131,7 @@ where
 }
 
 impl DolFile {
+    /// Loads a DOL file from a reader, returning a DolFile if successful.
     pub fn parse<R>(rdr: &mut R) -> Result<Self, Error>
     where
         R: Read + Seek,
@@ -151,6 +160,7 @@ impl DolFile {
         })
     }
 
+    /// Writes a DOL file to a writer, returning `Ok(())` if successful.
     pub fn write<W>(&self, wtr: &mut W) -> Result<(), Error>
     where
         W: Write + Seek,

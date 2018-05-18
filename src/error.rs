@@ -1,12 +1,17 @@
+//! Module holding our error type.
+
 use std::convert::From;
 use std::error::Error as StdError;
 use std::fmt;
 use std::io;
 use SectionKind;
 
+/// Represents the possible errors we could encounter.
 #[derive(Debug)]
 pub enum Error {
+    /// An error was encountered performing IO operations.
     Io(io::Error),
+    /// We were asked to write more sections than can fit in a DOL file.
     TooManySections(SectionKind),
 }
 
