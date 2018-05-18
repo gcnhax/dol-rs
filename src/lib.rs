@@ -1,12 +1,9 @@
 extern crate byteorder;
 #[macro_use]
 extern crate itertools;
-#[cfg(test)]
-#[macro_use]
-extern crate pretty_assertions;
 
 use byteorder::{ReadBytesExt, WriteBytesExt, BE};
-use std::io::{self, Read, Seek, SeekFrom, Write};
+use std::io::{Read, Seek, SeekFrom, Write};
 
 mod error;
 pub use error::Error;
