@@ -1,6 +1,6 @@
 # dol - a Rust crate for working with Nintendo DOL executable files
 
-[![Build Status](https://travis-ci.com/gcnhax/dol-rs.svg?branch=master)](https://travis-ci.com/gcnhax/dol-rs)
+[![Build Status](https://travis-ci.com/gcnhax/dol-rs.svg?branch=master)](https://travis-ci.com/gcnhax/dol-rs) [![codecov](https://codecov.io/gh/gcnhax/dol-rs/branch/master/graph/badge.svg)](https://codecov.io/gh/gcnhax/dol-rs)
 
 ## licensing
 `dol` is licensed under the MIT license; see `LICENSE`.
