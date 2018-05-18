@@ -43,7 +43,7 @@ pub struct DolHeader {
 }
 
 impl DolHeader {
-    pub fn parse<R>(rdr: &mut R) -> Result<Self, io::Error>
+    pub fn parse<R>(rdr: &mut R) -> Result<Self, Error>
     where
         R: Read + Seek,
     {
@@ -71,7 +71,7 @@ impl DolHeader {
         })
     }
 
-    pub fn write<W>(&self, wtr: &mut W) -> Result<(), io::Error>
+    pub fn write<W>(&self, wtr: &mut W) -> Result<(), Error>
     where
         W: Write,
     {
@@ -104,7 +104,7 @@ fn load_sections<R>(
     addresses: &[u32],
     lengths: &[u32],
     kind: SectionKind,
-) -> Result<Vec<Section>, io::Error>
+) -> Result<Vec<Section>, Error>
 where
     R: Read + Seek,
 {
@@ -126,7 +126,7 @@ where
 }
 
 impl DolFile {
-    pub fn parse<R>(rdr: &mut R) -> Result<Self, io::Error>
+    pub fn parse<R>(rdr: &mut R) -> Result<Self, Error>
     where
         R: Read + Seek,
     {
