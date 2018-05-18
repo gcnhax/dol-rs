@@ -1,6 +1,7 @@
 [package]
 name = "dol"
 version = "0.1.0"
-authors = ["Erin <sylphofelectricity@gmail.com>"]
+authors = ["Erin Moon <erin@hashbang.sh>"]
+exclude = ["data/*"]
 
 [dependencies]
