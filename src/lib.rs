@@ -2,6 +2,8 @@
 extern crate byteorder;
 #[macro_use]
 extern crate itertools;
+#[macro_use]
+extern crate quick_error;
 
 use byteorder::{ReadBytesExt, WriteBytesExt, BE};
 use std::io::{Read, Seek, SeekFrom, Write};
